@@ -22,6 +22,7 @@ public class MainController {
         return "home";
     }
 
+
     @RequestMapping("/main.do")
     public String Main(Model model) throws Exception {
 
