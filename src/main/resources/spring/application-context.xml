@@ -10,23 +10,30 @@
        http://www.springframework.org/schema/tx
        http://www.springframework.org/schema/tx/spring-tx.xsd">
 
+    <!-- 스프링 어노테이션 기반의 트랜잭션 관리자 -->
     <tx:annotation-driven />
 
     <context:component-scan base-package="demos.waguling.service, demos.waguling.repository" />
 
+    <!-- DataSource 등록 -->
     <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource">
         <property name="driverClassName" value="org.h2.Driver" />
+        <!-- JVM 안에서 동작하는 메모리 데이터베이스 사용. -->
         <property name="url" value="jdbc:h2:mem:jpashop" />
+        <!-- 서버 모드로 설정 -->
+        <!-- <property name="url" value="jdbc:h2:tcp://localhost/~/jpashop:MVCC=TRUE" /> -->
         <property name="username" value="sa" />
         <property name="password" value="" />
     </bean>
 
+    <!--트랜잭션 관리자 설정 -->
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
-
+    <!-- @Repository 어노테이션이 붙어있는 스프링 빈에 예외 변환 AOP를 적용 -->
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
+    <!-- 앤티티 매니저 팩토리 등록 -->
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <!-- @Entity 탐색 시작 위치 -->
